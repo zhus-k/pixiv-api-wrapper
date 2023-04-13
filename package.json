@@ -1,0 +1,33 @@
+{
+	"name": "pixiv-api-wrapper",
+	"version": "0.1.0",
+	"description": "",
+	"main": "./lib/index.js",
+	"types": "./lib/index.d.ts",
+	"files": [
+		"lib/**/*"
+	],
+	"scripts": {
+		"format:rome": "npx rome format --write src",
+		"build": "tsc --build"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"puppeteer-core": "^19.8.5"
+	},
+	"devDependencies": {
+		"@types/node": "^18.15.11",
+		"chromium": "^3.0.3",
+		"dotenv": "^16.0.3",
+		"nodemon": "^2.0.22",
+		"rome": "^12.0.0",
+		"ts-node": "^10.9.1",
+		"type-fest": "^3.8.0",
+		"typescript": "^5.0.4"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.4"
+	}
+}
