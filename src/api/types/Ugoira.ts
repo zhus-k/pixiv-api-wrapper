@@ -1,4 +1,4 @@
-import { CamelCasedPropertiesDeep } from 'type-fest';
+import type { CamelCasedPropertiesDeep } from 'type-fest';
 
 export type Ugoira = CamelCasedPropertiesDeep<Response.Ugoira>;
 

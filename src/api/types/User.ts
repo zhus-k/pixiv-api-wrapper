@@ -1,4 +1,4 @@
-import { CamelCasedPropertiesDeep } from 'type-fest';
+import type { CamelCasedPropertiesDeep } from 'type-fest';
 import { Illust } from './Illust';
 import { Novel } from './Novel';
 import { Visibility } from './SearchParameterOptions';
@@ -13,12 +13,12 @@ export type Follow = CamelCasedPropertiesDeep<Response.Follow>;
 export namespace Response {
 	export interface RecommendedUser {
 		user_previews: UserPreview;
-		next_url: string;
+		next_url: string | null;
 	}
 
 	export interface Users {
 		user_previews: UserPreview[];
-		next_url: string;
+		next_url: string | null;
 	}
 
 	export interface UserPreview {

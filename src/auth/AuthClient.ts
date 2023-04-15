@@ -19,7 +19,7 @@ export class AuthClient {
 		this.api = new AuthApi(browserExePath);
 	}
 
-	async authenticate(login: AuthOptions) {
+	async authenticate(login: AuthOptions): Promise<AuthClient> {
 		if (typeof login === 'string' && login.length > 0) {
 			log('Authenticating with Refresh Token');
 			const auth = await this.api.refreshToken(login);
@@ -44,15 +44,15 @@ export class AuthClient {
 		return this;
 	}
 
-	private set(auth: Auth) {
+	private set(auth: Auth): void {
 		this.auth = auth;
 	}
 
-	get() {
+	getAuth(): Auth {
 		return this.auth;
 	}
 
-	get Auth() {
+	get Auth(): AuthApi {
 		return this.api;
 	}
 }

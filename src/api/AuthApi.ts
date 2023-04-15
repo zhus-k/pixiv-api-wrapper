@@ -1,4 +1,3 @@
-import assert from 'node:assert';
 import { exec } from 'node:child_process';
 import crypto from 'node:crypto';
 import https from 'node:https';
@@ -24,7 +23,7 @@ import { Auth } from './types/Auth';
 export class AuthApi {
 	constructor(private browserExePath: string | undefined) {}
 
-	async login(userId: string, password: string) {
+	async login(userId: string, password: string): Promise<Auth> {
 		const [code_verifier, code_challenge] = this.oauthPKCE();
 
 		const loginParams = new URLSearchParams();
@@ -41,7 +40,11 @@ export class AuthApi {
 		return response;
 	}
 
-	private async getCode(loginUrl: string, userId: string, password: string) {
+	private async getCode(
+		loginUrl: string,
+		userId: string,
+		password: string,
+	): Promise<string> {
 		const browserExePath = this.browserExePath;
 		if (typeof browserExePath !== 'string') {
 			const start = getPlatformUriOpener();
@@ -103,7 +106,10 @@ export class AuthApi {
 		return code;
 	}
 
-	private async loginRequest(code: string, code_verifier: string) {
+	private async loginRequest(
+		code: string,
+		code_verifier: string,
+	): Promise<Auth> {
 		const data = {
 			client_id,
 			client_secret,
@@ -129,7 +135,7 @@ export class AuthApi {
 		return await httpRequest(request, data).then(snakeToCamelCase<Auth>);
 	}
 
-	async refreshToken(refresh_token: string) {
+	async refreshToken(refresh_token: string): Promise<Auth> {
 		const data = {
 			client_id,
 			client_secret,

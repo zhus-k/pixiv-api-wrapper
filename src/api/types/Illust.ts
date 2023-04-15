@@ -1,4 +1,4 @@
-import { CamelCasedPropertiesDeep } from 'type-fest';
+import type { CamelCasedPropertiesDeep } from 'type-fest';
 import { Type } from './SearchParameterOptions';
 import { User } from './User';
 
@@ -32,7 +32,7 @@ export namespace Response {
 
 	export interface Illusts {
 		illusts: Illust[];
-		next_url?: string;
+		next_url: string | null;
 	}
 
 	export interface IllustDetail {
@@ -89,7 +89,7 @@ export namespace Response {
 	}
 
 	export interface MetaSinglePage {
-		original_image_url: string;
+		original_image_url?: string;
 	}
 
 	export interface Tag {

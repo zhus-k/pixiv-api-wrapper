@@ -17,7 +17,7 @@ export class UserApi extends HttpBase {
 		super(auth);
 	}
 
-	async detail(id: string | number) {
+	async detail(id: string | number): Promise<UserDetail> {
 		const response = await this.request<Pick<UserSearchParams, 'userId'>>(
 			'GET',
 			'/v1/user/detail',
@@ -33,7 +33,7 @@ export class UserApi extends HttpBase {
 	async illusts(
 		id: string | number,
 		{ offset = 30 }: Pick<UserSearchParams, 'userId' | 'offset'> = {},
-	) {
+	): Promise<Illusts> {
 		const response = await this.request<
 			Pick<UserSearchParams, 'userId' | 'offset'>
 		>('GET', '/v1/user/illusts', {
@@ -48,7 +48,7 @@ export class UserApi extends HttpBase {
 	async novels(
 		id: string | number,
 		{ offset = 30 }: Pick<UserSearchParams, 'userId' | 'offset'> = {},
-	) {
+	): Promise<UserNovel> {
 		const response = await this.request<
 			Pick<UserSearchParams, 'userId' | 'offset'>
 		>('GET', '/v1/user/novels', {
@@ -65,7 +65,7 @@ export class UserApi extends HttpBase {
 		{ maxBookmarkId, restrict = 'all' }: UserSearchParams = {
 			restrict: 'all',
 		},
-	) {
+	): Promise<Illusts> {
 		const response = await this.request<
 			Pick<UserSearchParams, 'userId' | 'restrict' | 'maxBookmarkId'>
 		>('GET', '/v1/user/bookmarks/illust', {
@@ -83,7 +83,7 @@ export class UserApi extends HttpBase {
 		{ restrict = 'all' }: Pick<UserSearchParams, 'restrict'> = {
 			restrict: 'all',
 		},
-	) {
+	): Promise<BookmarkTags> {
 		const response = await this.request<
 			Pick<UserSearchParams, 'userId' | 'restrict'>
 		>('GET', '/v1/user/bookmark-tags/illust', {
@@ -100,7 +100,7 @@ export class UserApi extends HttpBase {
 		{ restrict = 'all' }: Pick<UserSearchParams, 'restrict'> = {
 			restrict: 'all',
 		},
-	) {
+	): Promise<BookmarkTags> {
 		const response = await this.request<
 			Pick<UserSearchParams, 'userId' | 'restrict'>
 		>('GET', '/v1/user/bookmark-tags/novel', {
@@ -115,7 +115,7 @@ export class UserApi extends HttpBase {
 	async following(
 		id: string | number,
 		{ offset = 30 }: Pick<UserSearchParams, 'offset'> = {},
-	) {
+	): Promise<Users> {
 		const response = await this.request<
 			Pick<UserSearchParams, 'userId' | 'offset'>
 		>('GET', '/v1/user/following', {
@@ -130,7 +130,7 @@ export class UserApi extends HttpBase {
 	async followers(
 		id: string | number,
 		{ offset = 30 }: Pick<UserSearchParams, 'offset'> = {},
-	) {
+	): Promise<Users> {
 		const response = await this.request<
 			Pick<UserSearchParams, 'userId' | 'offset'>
 		>('GET', '/v1/user/follower', {
@@ -142,7 +142,7 @@ export class UserApi extends HttpBase {
 		return snakeToCamelCase<Users>(response);
 	}
 
-	async myPixiv(id: string | number) {
+	async myPixiv(id: string | number): Promise<Users> {
 		const response = await this.request<Pick<UserSearchParams, 'userId'>>(
 			'GET',
 			'/v1/user/mypixiv',
@@ -155,7 +155,7 @@ export class UserApi extends HttpBase {
 		return snakeToCamelCase<Users>(response);
 	}
 
-	async recommended(id: string | number) {
+	async recommended(id: string | number): Promise<RecommendedUser> {
 		const response = await this.request<Pick<UserSearchParams, 'userId'>>(
 			'GET',
 			'/v1/user/recommended',
@@ -168,7 +168,7 @@ export class UserApi extends HttpBase {
 		return snakeToCamelCase<RecommendedUser>(response);
 	}
 
-	async followDetail(id: string | number) {
+	async followDetail(id: string | number): Promise<Follow> {
 		const response = await this.request<Pick<UserSearchParams, 'userId'>>(
 			'GET',
 			'/v1/user/follow/detail',

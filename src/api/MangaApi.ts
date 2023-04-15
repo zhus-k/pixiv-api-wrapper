@@ -11,7 +11,9 @@ export class MangaApi extends HttpBase {
 		super(auth);
 	}
 
-	async recommended({ offset = 60 }: MangaSearchParams = {}) {
+	async recommended({
+		offset = 60,
+	}: MangaSearchParams = {}): Promise<RecommendedManga> {
 		const response = await this.request<MangaSearchParams>(
 			'GET',
 			'/v1/manga/recommended',

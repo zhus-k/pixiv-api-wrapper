@@ -1,4 +1,4 @@
-import { CamelCasedPropertiesDeep } from 'type-fest';
+import type { CamelCasedPropertiesDeep } from 'type-fest';
 import { Visibility } from './SearchParameterOptions';
 
 export type BookmarkDetail = CamelCasedPropertiesDeep<Response.BookmarkDetail>;

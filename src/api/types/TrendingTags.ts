@@ -1,4 +1,4 @@
-import { CamelCasedPropertiesDeep } from 'type-fest';
+import type { CamelCasedPropertiesDeep } from 'type-fest';
 import { Illust } from './Illust';
 
 export type TrendingTags = CamelCasedPropertiesDeep<Response.TrendingTags>;

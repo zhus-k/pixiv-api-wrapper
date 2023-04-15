@@ -8,12 +8,12 @@ export class TrendingTagsApi extends HttpBase {
 		super(auth);
 	}
 
-	async illust() {
+	async illust(): Promise<TrendingTags> {
 		const response = await this.request('GET', '/v1/trending-tags/illust');
 		return snakeToCamelCase<TrendingTags>(response);
 	}
 
-	async novel() {
+	async novel(): Promise<TrendingTags> {
 		const response = await this.request('GET', '/v1/trending-tags/novel');
 		return snakeToCamelCase<TrendingTags>(response);
 	}

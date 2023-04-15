@@ -22,7 +22,7 @@ export class NovelApi extends HttpBase {
 		super(auth);
 	}
 
-	async detail(id: string | number) {
+	async detail(id: string | number): Promise<NovelDetail> {
 		const response = await this.request<Pick<NovelSearchParams, 'novelId'>>(
 			'GET',
 			'/v2/novel/detail',
@@ -36,7 +36,7 @@ export class NovelApi extends HttpBase {
 		return snakeToCamelCase<NovelDetail>(response);
 	}
 
-	async text(id: string | number) {
+	async text(id: string | number): Promise<NovelText> {
 		const response = await this.request<Pick<NovelSearchParams, 'novelId'>>(
 			'GET',
 			'/v1/novel/text',
@@ -49,7 +49,7 @@ export class NovelApi extends HttpBase {
 		return snakeToCamelCase<NovelText>(response);
 	}
 
-	async new({ maxNovelId }: NovelSearchParams = {}) {
+	async new({ maxNovelId }: NovelSearchParams = {}): Promise<Novels> {
 		const response = await this.request<Pick<NovelSearchParams, 'maxNovelId'>>(
 			'GET',
 			'/v1/novel/new',
@@ -64,7 +64,7 @@ export class NovelApi extends HttpBase {
 
 	async follow(
 		{ restrict }: Pick<NovelSearchParams, 'restrict'> = { restrict: 'all' },
-	) {
+	): Promise<Novels> {
 		const response = await this.request<Pick<NovelSearchParams, 'restrict'>>(
 			'GET',
 			'/v1/novel/follow',
@@ -77,7 +77,9 @@ export class NovelApi extends HttpBase {
 		return snakeToCamelCase<Novels>(response);
 	}
 
-	async recommended({ offset = 15 }: Pick<NovelSearchParams, 'offset'> = {}) {
+	async recommended({
+		offset = 15,
+	}: Pick<NovelSearchParams, 'offset'> = {}): Promise<RecommendedNovels> {
 		const response = await this.request<Pick<NovelSearchParams, 'offset'>>(
 			'GET',
 			'/v1/novel/recommended',
@@ -90,7 +92,7 @@ export class NovelApi extends HttpBase {
 		return snakeToCamelCase<RecommendedNovels>(response);
 	}
 
-	async comments(id: string | number) {
+	async comments(id: string | number): Promise<Comments> {
 		const response = await this.request<Pick<NovelSearchParams, 'novelId'>>(
 			'GET',
 			'/v1/novel/comments',
@@ -103,7 +105,7 @@ export class NovelApi extends HttpBase {
 		return snakeToCamelCase<Comments>(response);
 	}
 
-	async commentsV2(id: string | number) {
+	async commentsV2(id: string | number): Promise<CommentsV2> {
 		const response = await this.request<Pick<NovelSearchParams, 'novelId'>>(
 			'GET',
 			'/v2/novel/comments',
@@ -116,7 +118,7 @@ export class NovelApi extends HttpBase {
 		return snakeToCamelCase<CommentsV2>(response);
 	}
 
-	async series(id: string | number) {
+	async series(id: string | number): Promise<Novels> {
 		const response = await this.request<Pick<NovelSearchParams, 'seriesId'>>(
 			'GET',
 			'/v1/novel/series',
@@ -129,7 +131,9 @@ export class NovelApi extends HttpBase {
 		return snakeToCamelCase<Novels>(response);
 	}
 
-	async ranking({ offset = 30 }: Pick<NovelSearchParams, 'offset'> = {}) {
+	async ranking({
+		offset = 30,
+	}: Pick<NovelSearchParams, 'offset'> = {}): Promise<Novels> {
 		const response = await this.request<Pick<NovelSearchParams, 'offset'>>(
 			'GET',
 			'/v1/novel/ranking',
@@ -142,7 +146,7 @@ export class NovelApi extends HttpBase {
 		return snakeToCamelCase<Novels>(response);
 	}
 
-	async bookmarkDetailV2(id: string | number) {
+	async bookmarkDetailV2(id: string | number): Promise<BookmarkDetail> {
 		const response = await this.request<Pick<NovelSearchParams, 'novelId'>>(
 			'GET',
 			'/v2/novel/bookmark/detail',

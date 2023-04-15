@@ -1,11 +1,11 @@
-import { CamelCasedPropertiesDeep } from 'type-fest';
+import type { CamelCasedPropertiesDeep } from 'type-fest';
 
 export type CommentsV2 = CamelCasedPropertiesDeep<Response.CommentsV2>;
 
 export namespace Response {
 	export interface CommentsV2 {
 		comments: CommentV2[];
-		next_url: null;
+		next_url: string | null;
 		comment_access_control: number;
 	}
 

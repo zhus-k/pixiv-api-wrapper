@@ -21,43 +21,40 @@ export class PixivApiClient {
 
 	/**
 	 * Create an authenticated api client.
-	 * 
-	 * 
+	 *
+	 *
 	 * Puppeteer is Optional and is only used to automate authentication by ID in a headless browser.
 	 * It looks for a supported browser in the following order:
 	 * 1. The supplied path argument
 	 * 2. the default puppeteer executable path
 	 * 3. an installed version of 'Google Chrome'
-	 * 
+	 *
 	 * You can try to use {@link https://www.npmjs.com/package/puppeteer-chromium-resolver 'puppeteer-chromium-resolver'} if you find difficulty.
-	 * 
-	 * 
+	 *
+	 *
 	 * If no path is supplied, you will be prompted to enter the code by having to manually complete the login in the opened browser {@link https://gist.github.com/ZipFile/c9ebedb224406f4f11845ab700124362 [source]}:
 	 * 1. Open dev console (F12) and switch to network tab.
 	 * 2. Enable persistent logging ("Preserve log").
 	 * 3. Type into the filter field: callback?
 	 * 4. Proceed with Pixiv login.
 	 * 5. After logging in you should see a blank page and request that looks like this: https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback?state=...&code=.... Copy value of the code param into the prompt and hit the Enter key.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param {AuthOptions} options Authenticate with ID and password or refresh token.
 	 * @param {string | undefined} browserExePath When authenticating by ID and password, you must provide a relative (or absolute) path to a puppeteer compatible browser otherwise supply 'false' or leave empty as the default is 'false' to complete the login manually through an opened system default browser.
-	 * @example
-	 * ```js
-	 * // Authenticating with Refresh Token
+	 * @example // Authenticating with Refresh Token
 	 * const client = await PixivApiClient.create("<your refresh token>");
-	 * 
-	 * // Authenticating with ID using relative (or absolute path) to chromium
+	 *
+	 * @example // Authenticating with ID using relative (or absolute path) to chromium
 	 * const path = "/path/to/chromium"
 	 * const client = await PixivApiClient.create({ userId, password }, path);
-	 * 
-	 * // Authenticating with ID using 'chromium' package
+	 *
+	 * @example // Authenticating with ID using 'chromium' package
 	 * const { path } = require("chromium");
 	 * const client = await PixivApiClient.create({ userId, password }, path);
-	 * 
-	 * // Authenticating with ID (an installed chrome)
+	 *
+	 * @example // Authenticating with ID (an installed chrome)
 	 * const client = await PixivApiClient.create({ userId, password });
-	 * ```
 	 * @returns {Promise<PixivApiClient>} authenticated API client
 	 */
 	static async create(

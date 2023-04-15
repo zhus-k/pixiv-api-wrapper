@@ -1,6 +1,7 @@
 import { AuthClient } from '../auth/AuthClient';
 import { snakeToCamelCase } from '../helpers';
 import { HttpBase } from './HttpBase';
+import { Illust } from './types';
 import { Autocomplete, AutocompleteV2 } from './types/Autocomplete';
 import { BookmarkRanges } from './types/Bookmark';
 import { IllustSearch, IllustsPopularPreviewSearch } from './types/Illust';
@@ -25,7 +26,7 @@ export class SearchApi extends HttpBase {
 			sort = 'date_desc',
 			offset = 60,
 		}: Pick<SearchParams, 'offset' | 'searchTarget' | 'sort'> = {},
-	) {
+	): Promise<IllustSearch> {
 		const response = await this.request<SearchParams>(
 			'GET',
 			'/v1/search/illust',
@@ -46,7 +47,7 @@ export class SearchApi extends HttpBase {
 		{
 			searchTarget = 'partial_match_for_tags',
 		}: Pick<SearchParams, 'searchTarget'> = {},
-	) {
+	): Promise<IllustsPopularPreviewSearch> {
 		const response = await this.request<
 			Pick<SearchParams, 'word' | 'searchTarget'>
 		>('GET', '/v1/search/popular-preview/illust', {
@@ -65,7 +66,7 @@ export class SearchApi extends HttpBase {
 			sort = 'date_desc',
 			offset = 60,
 		}: Pick<SearchParams, 'offset' | 'searchTarget' | 'sort'> = {},
-	) {
+	): Promise<NovelSearch> {
 		const response = await this.request<SearchParams>(
 			'GET',
 			'/v1/search/novel',
@@ -86,7 +87,7 @@ export class SearchApi extends HttpBase {
 		{
 			searchTarget = 'partial_match_for_tags',
 		}: Pick<SearchParams, 'searchTarget'> = {},
-	) {
+	): Promise<NovelPopularPreviewSearch> {
 		const response = await this.request(
 			'GET',
 			'/v1/search/popular-preview/novel',
@@ -103,7 +104,7 @@ export class SearchApi extends HttpBase {
 	/**
 	 * I don't know what this is for
 	 */
-	async bookmarkRangesIllust(word: string) {
+	async bookmarkRangesIllust(word: string): Promise<BookmarkRanges> {
 		const response = await this.request<Pick<SearchParams, 'word'>>(
 			'GET',
 			'/v1/search/bookmark-ranges/illust',
@@ -119,7 +120,7 @@ export class SearchApi extends HttpBase {
 	/**
 	 * I don't know what this is for
 	 */
-	async bookmarkRangesNovel(word: string) {
+	async bookmarkRangesNovel(word: string): Promise<BookmarkRanges> {
 		const response = await this.request<Pick<SearchParams, 'word'>>(
 			'GET',
 			'/v1/search/bookmark-ranges/novel',
@@ -138,7 +139,7 @@ export class SearchApi extends HttpBase {
 			sort = 'popular_desc',
 			offset = 60,
 		}: Pick<SearchParams, 'sort' | 'offset'> = {},
-	) {
+	): Promise<Users> {
 		const response = await this.request<
 			Pick<SearchParams, 'word' | 'sort' | 'offset'>
 		>('GET', '/v1/search/user', {
@@ -151,7 +152,7 @@ export class SearchApi extends HttpBase {
 		return snakeToCamelCase<Users>(response);
 	}
 
-	async autocomplete(word: string) {
+	async autocomplete(word: string): Promise<Autocomplete> {
 		const response = await this.request('GET', '/v1/search/autocomplete', {
 			searchParams: {
 				word,
@@ -160,7 +161,7 @@ export class SearchApi extends HttpBase {
 		return snakeToCamelCase<Autocomplete>(response);
 	}
 
-	async autocompleteV2(word: string) {
+	async autocompleteV2(word: string): Promise<AutocompleteV2> {
 		const response = await this.request('GET', '/v2/search/autocomplete', {
 			searchParams: {
 				word,

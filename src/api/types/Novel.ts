@@ -1,4 +1,4 @@
-import { CamelCasedPropertiesDeep } from 'type-fest';
+import type { CamelCasedPropertiesDeep } from 'type-fest';
 import { User } from './User';
 
 export type NovelDetail = CamelCasedPropertiesDeep<Response.NovelDetail>;
@@ -31,7 +31,7 @@ export namespace Response {
 
 	export interface Novels {
 		novels: Novel[];
-		next_url?: string;
+		next_url: string | null;
 	}
 
 	export interface NovelDetail {

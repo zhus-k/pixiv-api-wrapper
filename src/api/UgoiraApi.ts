@@ -11,7 +11,7 @@ export class UgoiraApi extends HttpBase {
 		super(auth);
 	}
 
-	async metadata(id: string | number) {
+	async metadata(id: string | number): Promise<Ugoira> {
 		const response = await this.request<Params>('GET', '/v1/ugoira/metadata', {
 			searchParams: {
 				illustId: id,

@@ -1,6 +1,6 @@
 {
 	"name": "pixiv-api-wrapper",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "",
 	"main": "./lib/index.js",
 	"types": "./lib/index.d.ts",
@@ -28,6 +28,7 @@
 		"typescript": "^5.0.4"
 	},
 	"peerDependencies": {
+		"type-fest": "^3.8.0",
 		"typescript": "^5.0.4"
 	}
 }

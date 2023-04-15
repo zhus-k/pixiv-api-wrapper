@@ -10,8 +10,8 @@ export abstract class HttpBase {
 		this.request = buildBaseApi({
 			hostname,
 			headers: {
-				Authorization: this.authClient.get().accessToken
-					? `Bearer ${this.authClient.get().accessToken}`
+				Authorization: this.authClient.getAuth().accessToken
+					? `Bearer ${this.authClient.getAuth().accessToken}`
 					: undefined,
 			},
 		});
