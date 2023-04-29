@@ -1,8 +1,9 @@
 import { exec } from 'node:child_process';
+import { log } from 'node:console';
 import crypto from 'node:crypto';
 import https from 'node:https';
 import readline from 'node:readline/promises';
-import puppeteer, { executablePath } from 'puppeteer-core';
+import { Browser } from 'puppeteer-core';
 import {
 	clientId as client_id,
 	clientSecret as client_secret,
@@ -21,7 +22,7 @@ import {
 import { Auth } from './types/Auth';
 
 export class AuthApi {
-	constructor(private browserExePath: string | undefined) {}
+	constructor(private browser?: Browser) {}
 
 	async login(userId: string, password: string): Promise<Auth> {
 		const [code_verifier, code_challenge] = this.oauthPKCE();
@@ -45,9 +46,9 @@ export class AuthApi {
 		userId: string,
 		password: string,
 	): Promise<string> {
-		const browserExePath = this.browserExePath;
-		if (typeof browserExePath !== 'string') {
+		if (!this.browser) {
 			const start = getPlatformUriOpener();
+			log('Opening Login page in a browser');
 			const execStr = `${start} ${escapeParams(loginUrl)}`;
 			exec(execStr);
 			const rl = readline.createInterface({
@@ -57,18 +58,8 @@ export class AuthApi {
 			const code = await rl.question('Enter code: ');
 			return code;
 		}
-		const puppeteerExePathEnvVar = process.env.PUPPETEER_EXECUTABLE_PATH;
 
-		const resolvedExePath =
-			browserExePath ||
-			puppeteerExePathEnvVar ||
-			puppeteer.executablePath() ||
-			executablePath('chrome');
-
-		const browser = await puppeteer.launch({
-			executablePath: resolvedExePath,
-			headless: 'new',
-		});
+		const browser = this.browser;
 		const browserCtx = await browser.createIncognitoBrowserContext();
 		const page = await browserCtx.newPage();
 		await page.setViewport({
@@ -76,18 +67,23 @@ export class AuthApi {
 			height: 600,
 			deviceScaleFactor: 1,
 		});
-		await page.goto(loginUrl, { waitUntil: 'networkidle0' });
+		await Promise.all([
+			page.goto(loginUrl, { waitUntil: 'domcontentloaded' }),
+			new Promise<void>((resolve) => {
+				setTimeout(() => {
+					resolve();
+				}, 10_000);
+			}),
+		]);
 		const promisedCode = new Promise<string | null>((resolve) => {
 			page.on('request', (request) => {
 				const url = new URL(request.url());
-				if (url.protocol.includes('pixiv')) {
-					const params = url.searchParams;
-					const code = params.get('code');
+				const code = url.searchParams.get('code');
+				if (code) {
 					resolve(code);
 				}
 			});
 		});
-
 		await page.type('form input[autocomplete="username"]', userId, {
 			delay: 25,
 		});
@@ -96,12 +92,12 @@ export class AuthApi {
 		});
 		await page.click('form > button[type="submit"]', { delay: 100 });
 
-		const code = await timeOutPromise(promisedCode, 10000).catch(() => null);
+		const code = await timeOutPromise(promisedCode, 10_000).catch(() => null);
 
 		browser.close();
 
 		if (!code) {
-			throw new Error('Problem with code');
+			throw new Error('Did not find code');
 		}
 		return code;
 	}

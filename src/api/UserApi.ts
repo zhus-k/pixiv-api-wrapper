@@ -1,4 +1,3 @@
-import { AuthClient } from '../auth/AuthClient';
 import { snakeToCamelCase } from '../helpers';
 import { HttpBase } from './HttpBase';
 import { BookmarkTags } from './types/Bookmark';
@@ -13,10 +12,6 @@ type UserSearchParams = Pick<
 >;
 
 export class UserApi extends HttpBase {
-	constructor(auth: AuthClient) {
-		super(auth);
-	}
-
 	async detail(id: string | number): Promise<UserDetail> {
 		const response = await this.request<Pick<UserSearchParams, 'userId'>>(
 			'GET',

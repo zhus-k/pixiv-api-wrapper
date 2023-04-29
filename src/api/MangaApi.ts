@@ -1,4 +1,3 @@
-import { AuthClient } from '../auth/AuthClient';
 import { snakeToCamelCase } from '../helpers';
 import { HttpBase } from './HttpBase';
 import { RecommendedManga } from './types/Illust';
@@ -7,10 +6,6 @@ import { SearchParameterOptions } from './types/SearchParameterOptions';
 type MangaSearchParams = Pick<SearchParameterOptions, 'offset'>;
 
 export class MangaApi extends HttpBase {
-	constructor(auth: AuthClient) {
-		super(auth);
-	}
-
 	async recommended({
 		offset = 60,
 	}: MangaSearchParams = {}): Promise<RecommendedManga> {

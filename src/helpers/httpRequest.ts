@@ -1,7 +1,10 @@
 import { ClientRequest } from 'node:http';
 import querystring from 'node:querystring';
 
-export function httpRequest<T = any>(request: ClientRequest, data?: any) {
+export function httpRequest<T = string | Buffer | any>(
+	request: ClientRequest,
+	data?: any,
+) {
 	return new Promise<T>((resolve, reject) => {
 		let body;
 		if (['POST'].includes(request.method) && data) {

@@ -1,4 +1,3 @@
-import { AuthClient } from '../auth/AuthClient';
 import { snakeToCamelCase } from '../helpers';
 import { HttpBase } from './HttpBase';
 import { BookmarkDetail } from './types/Bookmark';
@@ -17,10 +16,6 @@ type IllustSearchParams = Pick<
 >;
 
 export class IllustApi extends HttpBase {
-	constructor(auth: AuthClient) {
-		super(auth);
-	}
-
 	async detail(id: string | number): Promise<IllustDetail> {
 		const response = await this.request<Pick<IllustSearchParams, 'illustId'>>(
 			'GET',

@@ -1,4 +1,5 @@
 import { log } from 'node:console';
+import { Browser } from 'puppeteer-core';
 import { AuthApi } from '../api/AuthApi';
 import { Auth } from '../api/types/Auth';
 
@@ -15,8 +16,8 @@ export class AuthClient {
 	private auth!: Auth;
 	private api: AuthApi;
 
-	constructor(browserExePath: string | undefined) {
-		this.api = new AuthApi(browserExePath);
+	constructor(browser?: Browser) {
+		this.api = new AuthApi(browser);
 	}
 
 	async authenticate(login: AuthOptions): Promise<AuthClient> {
@@ -24,7 +25,7 @@ export class AuthClient {
 			log('Authenticating with Refresh Token');
 			const auth = await this.api.refreshToken(login);
 			if (!auth) {
-				throw new Error('Error authenticating');
+				throw new Error('Authentication Error');
 			}
 			this.set(auth);
 		} else if (
@@ -36,10 +37,10 @@ export class AuthClient {
 			log('Authenticating with ID');
 			const auth = await this.api.login(login.userId, login.password);
 			if (!auth) {
-				throw new Error('Error authenticating');
+				throw new Error('Authentication Error');
 			}
 			this.set(auth);
-		} else throw new Error('Must be Authenticated to use the API');
+		} else throw new Error('Authenticated required for API.');
 		log('Authenticated');
 		return this;
 	}
@@ -48,7 +49,7 @@ export class AuthClient {
 		this.auth = auth;
 	}
 
-	getAuth(): Auth {
+	getAuthentication(): Auth {
 		return this.auth;
 	}
 

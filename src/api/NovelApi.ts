@@ -1,4 +1,3 @@
-import { AuthClient } from '../auth/AuthClient';
 import { snakeToCamelCase } from '../helpers';
 import { HttpBase } from './HttpBase';
 import { BookmarkDetail } from './types/Bookmark';
@@ -18,10 +17,6 @@ type NovelSearchParams = Pick<
 >;
 
 export class NovelApi extends HttpBase {
-	constructor(auth: AuthClient) {
-		super(auth);
-	}
-
 	async detail(id: string | number): Promise<NovelDetail> {
 		const response = await this.request<Pick<NovelSearchParams, 'novelId'>>(
 			'GET',

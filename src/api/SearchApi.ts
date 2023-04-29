@@ -1,7 +1,5 @@
-import { AuthClient } from '../auth/AuthClient';
 import { snakeToCamelCase } from '../helpers';
 import { HttpBase } from './HttpBase';
-import { Illust } from './types';
 import { Autocomplete, AutocompleteV2 } from './types/Autocomplete';
 import { BookmarkRanges } from './types/Bookmark';
 import { IllustSearch, IllustsPopularPreviewSearch } from './types/Illust';
@@ -15,10 +13,6 @@ type SearchParams = Pick<
 >;
 
 export class SearchApi extends HttpBase {
-	constructor(auth: AuthClient) {
-		super(auth);
-	}
-
 	async illust(
 		word: string,
 		{

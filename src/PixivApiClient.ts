@@ -1,3 +1,4 @@
+import { Browser } from 'puppeteer-core';
 import { IllustApi } from './api/IllustApi';
 import { MangaApi } from './api/MangaApi';
 import { NovelApi } from './api/NovelApi';
@@ -41,29 +42,20 @@ export class PixivApiClient {
 	 *
 	 *
 	 * @param {AuthOptions} options Authenticate with ID and password or refresh token.
-	 * @param {string | undefined} browserExePath When authenticating by ID and password, you must provide a relative (or absolute) path to a puppeteer compatible browser otherwise supply 'false' or leave empty as the default is 'false' to complete the login manually through an opened system default browser.
+	 * @param {Browser | undefined} browser Authenticating by ID and password requires a puppeteer browser.
 	 * @example // Authenticating with Refresh Token
 	 * const client = await PixivApiClient.create("<your refresh token>");
 	 *
-	 * @example // Authenticating with ID using relative (or absolute path) to chromium
-	 * const path = "/path/to/chromium"
-	 * const client = await PixivApiClient.create({ userId, password }, path);
-	 *
-	 * @example // Authenticating with ID using 'chromium' package
-	 * const { path } = require("chromium");
-	 * const client = await PixivApiClient.create({ userId, password }, path);
-	 *
-	 * @example // Authenticating with ID (an installed chrome)
-	 * const client = await PixivApiClient.create({ userId, password });
+	 * @example // Authenticating with ID (requires puppeteer)
+	 * const browser = await puppeteer.launch({ headless: 'new' });
+	 * const client = await PixivApiClient.create({ userId, password }, browser);
 	 * @returns {Promise<PixivApiClient>} authenticated API client
 	 */
 	static async create(
 		options: AuthOptions,
-		browserExePath: string | undefined = undefined,
+		browser?: Browser,
 	): Promise<PixivApiClient> {
-		const authClient = await new AuthClient(browserExePath).authenticate(
-			options,
-		);
+		const authClient = await new AuthClient(browser).authenticate(options);
 
 		const illustApi = new IllustApi(authClient);
 		const mangaApi = new MangaApi(authClient);
