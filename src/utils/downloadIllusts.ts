@@ -24,6 +24,7 @@ import { FileDownload } from './fileDownload';
  */
 export async function downloadIllusts(
 	illust: Illust | string,
+	quality?: (keyof Illust["imageUrls"] | 'original') | ((illust: Illust) => (keyof Illust["imageUrls"] | 'original'))
 ): Promise<PromiseSettledResult<FileDownload>[]> {
 	const links: string[] = [];
 	if (typeof illust === 'string') {
@@ -32,9 +33,15 @@ export async function downloadIllusts(
 		} else {
 			throw new Error('Not a Pixiv image url');
 		}
-	} else if (illust.pageCount > 1)
+	} else if (illust.metaPages.length > 0)
 		for (const page of illust.metaPages) {
-			links.push(page.imageUrls.original);
+			if (typeof quality === 'string') {
+				links.push(page.imageUrls[quality]);
+			} else if (typeof quality === 'function') {
+				links.push(page.imageUrls[quality(illust)]);
+			} else {
+				links.push(page.imageUrls.original);
+			}
 		}
 	else if (illust.metaSinglePage?.originalImageUrl) {
 		links.push(illust.metaSinglePage.originalImageUrl);

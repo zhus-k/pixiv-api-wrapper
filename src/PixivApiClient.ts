@@ -25,10 +25,6 @@ export class PixivApiClient {
 	 *
 	 *
 	 * Puppeteer is Optional and is only used to automate authentication by ID in a headless browser.
-	 * It looks for a supported browser in the following order:
-	 * 1. The supplied path argument
-	 * 2. the default puppeteer executable path
-	 * 3. an installed version of 'Google Chrome'
 	 *
 	 * You can try to use {@link https://www.npmjs.com/package/puppeteer-chromium-resolver 'puppeteer-chromium-resolver'} if you find difficulty.
 	 *
