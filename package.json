@@ -33,5 +33,8 @@
 	"peerDependencies": {
 		"type-fest": "^3.11.0",
 		"typescript": "^5.0.4"
+	},
+	"repository": {
+		"url": "https://github.com/zhus-k/pixiv-api-wrapper"
 	}
 }
