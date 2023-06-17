@@ -1,4 +1,3 @@
-import { log } from 'node:console';
 import { Browser } from 'puppeteer-core';
 import { AuthApi } from '../api/AuthApi';
 import { Auth } from '../api/types/Auth';
@@ -20,9 +19,8 @@ export class AuthClient {
 		this.api = new AuthApi(browser);
 	}
 
-	async authenticate(login: AuthOptions): Promise<AuthClient> {
+	async authenticate(login: AuthOptions): Promise<Auth> {
 		if (typeof login === 'string' && login.length > 0) {
-			log('Authenticating with Refresh Token');
 			const auth = await this.api.refreshToken(login);
 			if (!auth) {
 				throw new Error('Authentication Error');
@@ -34,15 +32,26 @@ export class AuthClient {
 			login.userId &&
 			login.password
 		) {
-			log('Authenticating with ID');
 			const auth = await this.api.login(login.userId, login.password);
 			if (!auth) {
 				throw new Error('Authentication Error');
 			}
 			this.set(auth);
-		} else throw new Error('Authenticated required for API.');
-		log('Authenticated');
-		return this;
+		} else throw new Error('Authentication required for API.');
+		return this.getAuthentication();
+	}
+
+	/**
+	 * Reauthenticates client with Refresh Token
+	 * @returns Refresh Token
+	 */
+	async refreshAuth() {
+		if (this.auth.refreshToken) {
+			const auth = await this.api.refreshToken(this.auth.refreshToken);
+			this.set(auth);
+			return this.auth.refreshToken;
+		}
+		return null;
 	}
 
 	private set(auth: Auth): void {
@@ -51,9 +60,5 @@ export class AuthClient {
 
 	getAuthentication(): Auth {
 		return this.auth;
-	}
-
-	get Auth(): AuthApi {
-		return this.api;
 	}
 }

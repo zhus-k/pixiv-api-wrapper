@@ -13,9 +13,9 @@ import { FileDownload } from './fileDownload';
  * const illustDetail = await client.Illust.detail('<illustId>');
  * if (illustDetail.illust.type === 'illust') {
  * 	const responses = await Utils.downloadIllusts('<illustId>');
- *	for (const res of responses) {
- *		if (res.status === "fulfilled") {
- *			const { metadata, data } = res.value;
+ *	for (const response of responses) {
+ *		if (response.status === "fulfilled") {
+ *			const { metadata, data } = response.value;
  *			fs.writeFileSync(`${metadata.fileName}.${metadata.fileExtension}`, data);
  *		}
  *	}
@@ -24,7 +24,9 @@ import { FileDownload } from './fileDownload';
  */
 export async function downloadIllusts(
 	illust: Illust | string,
-	quality?: (keyof Illust["imageUrls"] | 'original') | ((illust: Illust) => (keyof Illust["imageUrls"] | 'original'))
+	quality?:
+		| (keyof Illust['imageUrls'] | 'original')
+		| ((illust: Illust) => keyof Illust['imageUrls'] | 'original'),
 ): Promise<PromiseSettledResult<FileDownload>[]> {
 	const links: string[] = [];
 	if (typeof illust === 'string') {

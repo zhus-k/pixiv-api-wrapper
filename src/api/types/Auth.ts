@@ -3,6 +3,8 @@ import type { CamelCasedPropertiesDeep } from 'type-fest';
 export type Auth = CamelCasedPropertiesDeep<Response.Auth>;
 
 export namespace Response {
+	type AuthResponse = Omit<Auth, 'response'>;
+
 	export interface Auth {
 		access_token: string;
 		expires_in: number;
@@ -10,7 +12,7 @@ export namespace Response {
 		scope: string;
 		refresh_token: string;
 		user: User;
-		response: Auth;
+		response: AuthResponse;
 	}
 
 	export interface User {

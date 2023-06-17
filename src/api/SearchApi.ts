@@ -11,6 +11,14 @@ type SearchParams = Pick<
 	SearchParameterOptions,
 	'offset' | 'searchTarget' | 'sort' | 'word'
 >;
+type SearchIllustParams = Pick<
+	SearchParams,
+	'offset' | 'searchTarget' | 'sort'
+>;
+type SearchPopularPreviewIllustParams = Pick<SearchParams, 'searchTarget'>;
+type SearchNovelParams = Pick<SearchParams, 'offset' | 'searchTarget' | 'sort'>;
+type SearchPreviewNovelParams = Pick<SearchParams, 'searchTarget'>;
+type SearchUserParams = Pick<SearchParams, 'sort' | 'offset'>;
 
 export class SearchApi extends HttpBase {
 	async illust(
@@ -19,38 +27,34 @@ export class SearchApi extends HttpBase {
 			searchTarget = 'partial_match_for_tags',
 			sort = 'date_desc',
 			offset = 60,
-		}: Pick<SearchParams, 'offset' | 'searchTarget' | 'sort'> = {},
+		}: SearchIllustParams = {},
 	): Promise<IllustSearch> {
-		const response = await this.request<SearchParams>(
-			'GET',
-			'/v1/search/illust',
-			{
-				searchParams: {
-					word,
-					searchTarget,
-					sort,
-					offset,
-				},
+		return await this.request<SearchParams>('GET', '/v1/search/illust', {
+			searchParams: {
+				word,
+				searchTarget,
+				sort,
+				offset,
 			},
-		);
-		return snakeToCamelCase<IllustSearch>(response);
+		});
 	}
 
 	async popularPreviewIllust(
 		word: string,
 		{
 			searchTarget = 'partial_match_for_tags',
-		}: Pick<SearchParams, 'searchTarget'> = {},
+		}: SearchPopularPreviewIllustParams = {},
 	): Promise<IllustsPopularPreviewSearch> {
-		const response = await this.request<
-			Pick<SearchParams, 'word' | 'searchTarget'>
-		>('GET', '/v1/search/popular-preview/illust', {
-			searchParams: {
-				word,
-				searchTarget,
+		return await this.request<Pick<SearchParams, 'word' | 'searchTarget'>>(
+			'GET',
+			'/v1/search/popular-preview/illust',
+			{
+				searchParams: {
+					word,
+					searchTarget,
+				},
 			},
-		});
-		return snakeToCamelCase<IllustsPopularPreviewSearch>(response);
+		);
 	}
 
 	async novel(
@@ -59,47 +63,35 @@ export class SearchApi extends HttpBase {
 			searchTarget = 'partial_match_for_tags',
 			sort = 'date_desc',
 			offset = 60,
-		}: Pick<SearchParams, 'offset' | 'searchTarget' | 'sort'> = {},
+		}: SearchNovelParams = {},
 	): Promise<NovelSearch> {
-		const response = await this.request<SearchParams>(
-			'GET',
-			'/v1/search/novel',
-			{
-				searchParams: {
-					word,
-					searchTarget,
-					sort,
-					offset,
-				},
+		return await this.request<SearchParams>('GET', '/v1/search/novel', {
+			searchParams: {
+				word,
+				searchTarget,
+				sort,
+				offset,
 			},
-		);
-		return snakeToCamelCase<NovelSearch>(response);
+		});
 	}
 
 	async popularPreviewNovel(
 		word: string,
-		{
-			searchTarget = 'partial_match_for_tags',
-		}: Pick<SearchParams, 'searchTarget'> = {},
+		{ searchTarget = 'partial_match_for_tags' }: SearchPreviewNovelParams = {},
 	): Promise<NovelPopularPreviewSearch> {
-		const response = await this.request(
-			'GET',
-			'/v1/search/popular-preview/novel',
-			{
-				searchParams: {
-					word,
-					searchTarget,
-				},
+		return await this.request('GET', '/v1/search/popular-preview/novel', {
+			searchParams: {
+				word,
+				searchTarget,
 			},
-		).then(snakeToCamelCase<NovelPopularPreviewSearch>);
-		return response;
+		}).then(snakeToCamelCase<NovelPopularPreviewSearch>);
 	}
 
 	/**
 	 * I don't know what this is for
 	 */
 	async bookmarkRangesIllust(word: string): Promise<BookmarkRanges> {
-		const response = await this.request<Pick<SearchParams, 'word'>>(
+		return await this.request<Pick<SearchParams, 'word'>>(
 			'GET',
 			'/v1/search/bookmark-ranges/illust',
 			{
@@ -108,14 +100,13 @@ export class SearchApi extends HttpBase {
 				},
 			},
 		);
-		return snakeToCamelCase<BookmarkRanges>(response);
 	}
 
 	/**
 	 * I don't know what this is for
 	 */
 	async bookmarkRangesNovel(word: string): Promise<BookmarkRanges> {
-		const response = await this.request<Pick<SearchParams, 'word'>>(
+		return await this.request<Pick<SearchParams, 'word'>>(
 			'GET',
 			'/v1/search/bookmark-ranges/novel',
 			{
@@ -124,43 +115,38 @@ export class SearchApi extends HttpBase {
 				},
 			},
 		);
-		return snakeToCamelCase<BookmarkRanges>(response);
 	}
 
 	async user(
 		word: string,
-		{
-			sort = 'popular_desc',
-			offset = 60,
-		}: Pick<SearchParams, 'sort' | 'offset'> = {},
+		{ sort = 'popular_desc', offset = 60 }: SearchUserParams = {},
 	): Promise<Users> {
-		const response = await this.request<
-			Pick<SearchParams, 'word' | 'sort' | 'offset'>
-		>('GET', '/v1/search/user', {
-			searchParams: {
-				word,
-				sort,
-				offset,
+		return await this.request<Pick<SearchParams, 'word' | 'sort' | 'offset'>>(
+			'GET',
+			'/v1/search/user',
+			{
+				searchParams: {
+					word,
+					sort,
+					offset,
+				},
 			},
-		});
-		return snakeToCamelCase<Users>(response);
+		);
 	}
 
 	async autocomplete(word: string): Promise<Autocomplete> {
-		const response = await this.request('GET', '/v1/search/autocomplete', {
+		return await this.request('GET', '/v1/search/autocomplete', {
 			searchParams: {
 				word,
 			},
 		});
-		return snakeToCamelCase<Autocomplete>(response);
 	}
 
 	async autocompleteV2(word: string): Promise<AutocompleteV2> {
-		const response = await this.request('GET', '/v2/search/autocomplete', {
+		return await this.request('GET', '/v2/search/autocomplete', {
 			searchParams: {
 				word,
 			},
 		});
-		return snakeToCamelCase<AutocompleteV2>(response);
 	}
 }

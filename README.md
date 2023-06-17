@@ -15,7 +15,6 @@ const client = await PixivApi.create("<your refresh token>");
 
 2. Authenticating with ID (Not recommended) *see* [1]
 ```typescript 
-// Setting headless to 'new' is recommended to circumvent Cloudflare 
 const browser = await puppeteer.launch({ headless: 'new' });
 const client = await PixivApi.create({ userId, password }, browser);
 ```

@@ -35,7 +35,8 @@ export type Sort =
 	| 'popular_female_desc'
 	| 'popular_male_desc';
 
-export type Visibility = 'all' | 'private' | 'public';
+export type Visibility = 'private' | 'public';
+export type AllVisibility = 'all' | Visibility;
 
 export type SearchTarget =
 	| 'exact_match_for_tags'
@@ -79,7 +80,7 @@ export type SearchParameterOptions = Partial<{
 	offset: string | number;
 	parentCommentId: Id;
 	r18: boolean;
-	restrict: Visibility;
+	restrict: AllVisibility;
 	searchTarget: SearchTarget;
 	seriesId: Id;
 	sort: Sort;

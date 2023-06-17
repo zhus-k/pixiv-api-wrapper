@@ -1,9 +1,9 @@
 import AdmZip from 'adm-zip';
-import { BitmapImage, GifCodec, GifFrame, JimpBitmap } from 'gifwrap';
+import GIFEncoder from 'gif-encoder';
+import { read } from 'jimp';
 import { ClientRequest } from 'node:http';
 import https from 'node:https';
-import os from 'node:os';
-import { Worker } from 'node:worker_threads';
+import { Writable } from 'node:stream';
 import { Ugoira } from '../api/types/Ugoira';
 import { httpRequest } from '../helpers';
 import { FileDownload } from './fileDownload';
@@ -11,11 +11,7 @@ import { FileDownload } from './fileDownload';
 /**
  * Downloads and encodes Ugoira.
  * @param ugoira Ugoira detail object
- * @param threads Number of Worker threads to quantize GIF frames
  * @example
- * import fs from 'node:fs';
- * import os from 'node:os'
- * const threads = os.cpus().length;
  * const client = await PixivApiClient.create({ userId, password });
  * const illustDetail = await client.Illust.detail('<illustId>');
  * if (illustDetail.illust.type === 'ugoira') {
@@ -25,10 +21,7 @@ import { FileDownload } from './fileDownload';
  * }
  * @returns Promise<FileDownload>
  */
-export async function downloadUgoira(
-	ugoira: Ugoira,
-	options = { threads: 4 },
-): Promise<FileDownload> {
+export async function downloadUgoira(ugoira: Ugoira): Promise<FileDownload> {
 	const link = ugoira.ugoiraMetadata.zipUrls.medium;
 
 	const headRequest: ClientRequest = https.request(new URL(link));
@@ -78,71 +71,30 @@ export async function downloadUgoira(
 	const frameFiles = zip.getEntries();
 
 	const frameBitmaps = frameFiles.map((f) => f.getData());
-
-	const bitmaps: JimpBitmap[] = [];
-	const cpus = os.cpus().length;
-
-	const { threads } = options;
-	const workerThreads =
-		threads > 0
-			? threads > cpus
-				? cpus
-				: threads
-			: cpus > 4
-			? 4
-			: Math.min(cpus, 4);
-
-	const gifFrames = await new Promise<GifFrame[]>((resolve) => {
-		const workers: Worker[] = [];
-		for (let i = 0; i < workerThreads; i++) {
-			const startIndex = Math.floor((i / workerThreads) * frameBitmaps.length);
-			const endIndex = Math.floor(
-				((i + 1) / workerThreads) * frameBitmaps.length,
-			);
-			const framesBuffers = frameBitmaps.slice(startIndex, endIndex);
-			const worker = new Worker(
-				`${__dirname}/workers/quantizeGifBitmapWorker.js`,
-				{
-					workerData: {
-						startIndex,
-						framesBuffers,
-					},
-				},
-			);
-			worker.on(
-				'message',
-				({ id, bitmap }: { id: number; bitmap: JimpBitmap }) => {
-					// Deserialize to Buffer
-					bitmap.data = Buffer.from(bitmap.data);
-					bitmaps[id] = bitmap;
-				},
-			);
-			workers.push(worker);
-		}
-
-		return Promise.all(
-			workers.map(
-				(worker) =>
-					new Promise((resolve) => {
-						worker.on('exit', resolve);
-					}),
-			),
-		).then(() => {
-			const result = bitmaps.map((jimpBitmap, i) => {
-				const bitmap = new BitmapImage(jimpBitmap);
-				const delay = ugoira.ugoiraMetadata.frames[i].delay;
-
-				const gifFrame = new GifFrame(bitmap, {
-					delayCentisecs: delay / 10,
-				});
-
-				return gifFrame;
-			});
-			resolve(result);
-		});
+	const ib = await read(frameBitmaps[0]);
+	const {
+		bitmap: { width, height },
+	} = ib;
+	const gif = new GIFEncoder(width, height);
+	gif.setQuality(10);
+	gif.setRepeat(0);
+	gif.writeHeader();
+	const chunks: any[] = [];
+	const ws = new Writable({
+		write(chunk, _encoding, callback) {
+			chunks.push(chunk);
+			callback();
+		},
 	});
+	gif.pipe(ws);
+	for (const [i, framebitmap] of frameBitmaps.entries()) {
+		const jbitmp = await read(framebitmap);
 
-	const { buffer } = await new GifCodec().encodeGif(gifFrames, {});
+		gif.setDelay(ugoira.ugoiraMetadata.frames[i].delay);
+		gif.addFrame(jbitmp.bitmap.data);
+	}
+	gif.finish();
+	const buffer = Buffer.concat(chunks);
 	const metadata = {
 		...(await metadataPromise),
 		mimeType: 'image/gif',

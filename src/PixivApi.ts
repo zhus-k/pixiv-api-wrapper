@@ -8,7 +8,7 @@ import { UgoiraApi } from './api/UgoiraApi';
 import { UserApi } from './api/UserApi';
 import { AuthClient, AuthOptions } from './auth/AuthClient';
 
-export class PixivApiClient {
+export class PixivApi {
 	private constructor(
 		protected authClient: AuthClient,
 		protected illustApi: IllustApi,
@@ -21,37 +21,28 @@ export class PixivApiClient {
 	) {}
 
 	/**
-	 * Create an authenticated api client.
+	 * Create an authenticated Pixiv API client.
 	 *
 	 *
 	 * Puppeteer is Optional and is only used to automate authentication by ID in a headless browser.
 	 *
-	 * You can try to use {@link https://www.npmjs.com/package/puppeteer-chromium-resolver 'puppeteer-chromium-resolver'} if you find difficulty.
-	 *
-	 *
-	 * If no path is supplied, you will be prompted to enter the code by having to manually complete the login in the opened browser {@link https://gist.github.com/ZipFile/c9ebedb224406f4f11845ab700124362 [source]}:
-	 * 1. Open dev console (F12) and switch to network tab.
-	 * 2. Enable persistent logging ("Preserve log").
-	 * 3. Type into the filter field: callback?
-	 * 4. Proceed with Pixiv login.
-	 * 5. After logging in you should see a blank page and request that looks like this: https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback?state=...&code=.... Copy value of the code param into the prompt and hit the Enter key.
-	 *
-	 *
-	 * @param {AuthOptions} options Authenticate with ID and password or refresh token.
-	 * @param {Browser | undefined} browser Authenticating by ID and password requires a puppeteer browser.
-	 * @example // Authenticating with Refresh Token
-	 * const client = await PixivApiClient.create("<your refresh token>");
-	 *
-	 * @example // Authenticating with ID (requires puppeteer)
+	 * @param {AuthOptions} options ID and password or Refresh Token.
+	 * @param {Browser | undefined} browser Optional puppeteer compatible browser (not included) to authenticate by ID and password.
+	 * @example // 1. Authenticate with Refresh Token
+	 * const client = await PixivApi.create("<your refresh token>");
+	 * @example // 2. Authenticating with ID (puppeteer)
 	 * const browser = await puppeteer.launch({ headless: 'new' });
-	 * const client = await PixivApiClient.create({ userId, password }, browser);
-	 * @returns {Promise<PixivApiClient>} authenticated API client
+	 * const client = await PixivApi.create({ userId, password }, browser);
+	 * @example // 3. Complete authentication in an opened browser
+	 * const client = await PixivApi.create({ userId, password });
+	 * @returns {Promise<PixivApi>} authenticated API client
 	 */
 	static async create(
 		options: AuthOptions,
 		browser?: Browser,
-	): Promise<PixivApiClient> {
-		const authClient = await new AuthClient(browser).authenticate(options);
+	): Promise<PixivApi> {
+		const authClient = new AuthClient(browser);
+		await authClient.authenticate(options);
 
 		const illustApi = new IllustApi(authClient);
 		const mangaApi = new MangaApi(authClient);
@@ -61,7 +52,7 @@ export class PixivApiClient {
 		const ugoiraApi = new UgoiraApi(authClient);
 		const userApi = new UserApi(authClient);
 
-		const client = new PixivApiClient(
+		const client = new PixivApi(
 			authClient,
 			illustApi,
 			mangaApi,

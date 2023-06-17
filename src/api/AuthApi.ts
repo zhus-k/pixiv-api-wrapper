@@ -1,5 +1,4 @@
 import { exec } from 'node:child_process';
-import { log } from 'node:console';
 import crypto from 'node:crypto';
 import https from 'node:https';
 import readline from 'node:readline/promises';
@@ -48,7 +47,6 @@ export class AuthApi {
 	): Promise<string> {
 		if (!this.browser) {
 			const start = getPlatformUriOpener();
-			log('Opening Login page in a browser');
 			const execStr = `${start} ${escapeParams(loginUrl)}`;
 			exec(execStr);
 			const rl = readline.createInterface({
@@ -128,7 +126,7 @@ export class AuthApi {
 			},
 		});
 
-		return await httpRequest(request, data).then(snakeToCamelCase<Auth>);
+		return await httpRequest<Auth>(request, data);
 	}
 
 	async refreshToken(refresh_token: string): Promise<Auth> {
@@ -155,6 +153,15 @@ export class AuthApi {
 		const response = await httpRequest(request, data).then(
 			snakeToCamelCase<Auth>,
 		);
+
+		// const response = await httpRequest(request, data)
+		// 	.then((response) => {
+		// 		const cased = snakeToCamelCase(response)
+		// 		if (cased.error) {
+		// 			throw cased as AuthError;
+		// 		}
+		// 		else return cased as Auth;
+		// 	});
 
 		return response;
 	}

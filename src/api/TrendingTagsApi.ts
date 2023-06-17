@@ -1,15 +1,12 @@
-import { snakeToCamelCase } from '../helpers';
 import { HttpBase } from './HttpBase';
 import { TrendingTags } from './types/TrendingTags';
 
 export class TrendingTagsApi extends HttpBase {
 	async illust(): Promise<TrendingTags> {
-		const response = await this.request('GET', '/v1/trending-tags/illust');
-		return snakeToCamelCase<TrendingTags>(response);
+		return await this.request('GET', '/v1/trending-tags/illust');
 	}
 
 	async novel(): Promise<TrendingTags> {
-		const response = await this.request('GET', '/v1/trending-tags/novel');
-		return snakeToCamelCase<TrendingTags>(response);
+		return await this.request('GET', '/v1/trending-tags/novel');
 	}
 }

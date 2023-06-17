@@ -7,7 +7,7 @@ import { userAgent } from '../constants/constants';
 export function buildBaseApi(baseOptions: RequestOptions) {
 	return async function <S extends Record<string, any>, T = any>(
 		method: string,
-		path: string = '',
+		path = '',
 		{
 			headers,
 			searchParams,
@@ -19,13 +19,14 @@ export function buildBaseApi(baseOptions: RequestOptions) {
 		} = {},
 	) {
 		// Parse Search Parameters if any
-		searchParams && (path += processSearchParams(searchParams));
-		console.log(method.padEnd(6), path);
+		const finalPath = searchParams
+			? path + processSearchParams(searchParams)
+			: path;
 
 		const request = https.request({
 			...baseOptions,
 			method,
-			path,
+			path: finalPath,
 			headers: {
 				'User-Agent': userAgent,
 				...baseOptions.headers,

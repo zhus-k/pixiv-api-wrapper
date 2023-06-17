@@ -7,6 +7,7 @@ export function escapeParams(string: string) {
 			return `${string.replace(/&/g, '^&')}`;
 		// Not tested
 		case 'linux':
+			return `"${string}"`;
 		default:
 			return `"${string}"`;
 	}

@@ -1,10 +1,8 @@
 import { ClientRequest } from 'node:http';
 import querystring from 'node:querystring';
+import { snakeToCamelCase } from '.';
 
-export function httpRequest<T = string | Buffer | any>(
-	request: ClientRequest,
-	data?: any,
-) {
+export function httpRequest<T = any>(request: ClientRequest, data?: any) {
 	return new Promise<T>((resolve, reject) => {
 		let body;
 		if (['POST'].includes(request.method) && data) {
@@ -25,8 +23,10 @@ export function httpRequest<T = string | Buffer | any>(
 
 		request
 			.on('response', (response) => {
-				const { headers } = response;
+				const { headers, statusCode } = response;
+
 				const contentType = headers['content-type'] ?? '';
+
 				const chunks: Buffer[] = [];
 				response
 					.on('data', (chunk) => {
@@ -35,7 +35,10 @@ export function httpRequest<T = string | Buffer | any>(
 					.on('end', () => {
 						const binary = Buffer.concat(chunks);
 						const result = processBuffer(contentType, binary);
-						resolve(result);
+						if (statusCode && statusCode >= 200 && statusCode < 300) {
+							resolve(result);
+						}
+						reject(result);
 					})
 					.on('error', (err) => {
 						reject(err.message);
@@ -52,7 +55,7 @@ export function httpRequest<T = string | Buffer | any>(
 
 	function processBuffer(contentType: string, binary: Buffer) {
 		if (['application/json'].some((s) => contentType.includes(s))) {
-			return JSON.parse(binary.toString());
+			return snakeToCamelCase(JSON.parse(binary.toString()));
 		} else if (
 			['text/css', 'text/html', 'text/javascript', 'text/plain'].some((s) =>
 				contentType.includes(s),
