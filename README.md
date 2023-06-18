@@ -1,5 +1,7 @@
 # **pixiv-api-wrapper**
 
+A type safe wrapper for Pixiv App API.
+
 ## **How to use**
 
 ### **Authentication**
