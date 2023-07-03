@@ -1,5 +1,5 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
-import { Illust as Illust_ } from './Illust';
+import { Illust } from './Illust';
 
 export type TrendingTags = CamelCasedPropertiesDeep<Trending_Tags>;
 
@@ -14,4 +14,4 @@ interface Trend_Tag {
 }
 
 interface Trend_Tag_Illust
-	extends Omit<Illust_, 'total_comments' | 'comment_access_control'> {}
+	extends Omit<Illust, 'total_comments' | 'comment_access_control'> {}

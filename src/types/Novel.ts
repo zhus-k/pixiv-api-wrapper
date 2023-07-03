@@ -1,5 +1,5 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
-import { User as User_ } from './User';
+import { User } from './User';
 
 export type NovelDetail = CamelCasedPropertiesDeep<Novel_Detail>;
 export type Novel = CamelCasedPropertiesDeep<Novel_>;
@@ -23,7 +23,7 @@ interface Recommended_Novels extends Novels_ {
 interface Novel_Popular_Preview_Search extends Omit<Novel_Search, 'next_url'> {}
 
 interface User_Novel extends Novels_ {
-	user: User_;
+	user: User;
 }
 
 interface Novels_ {
@@ -47,7 +47,7 @@ interface Novel_ {
 	tags: Tag_[];
 	page_count: number;
 	text_length: number;
-	user: Omit<User_, 'is_access_blocking_user'>;
+	user: Omit<User, 'is_access_blocking_user'>;
 	series?: Series_;
 	is_bookmarked: boolean;
 	total_bookmarks: number;

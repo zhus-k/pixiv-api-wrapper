@@ -1,7 +1,7 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
-import { Illust as Illust_ } from './Illust';
-import { Novel as Novel_ } from './Novel';
-import { Visibility as Visibility_ } from './SearchParameterOptions';
+import { Illust } from './Illust';
+import { Novel } from './Novel';
+import { Visibility } from './SearchParameterOptions';
 
 export type User = CamelCasedPropertiesDeep<User_>;
 export type Users = CamelCasedPropertiesDeep<Users_>;
@@ -21,8 +21,8 @@ interface Users_ {
 
 interface User_Preview {
 	user: User_;
-	illusts: Illust_[];
-	novels: Novel_[];
+	illusts: Illust[];
+	novels: Novel[];
 	is_muted: boolean;
 }
 
@@ -77,11 +77,11 @@ interface Profile_ {
 }
 
 interface Profile_Publicity {
-	gender: Visibility_;
-	region: Visibility_;
-	birth_day: Visibility_;
-	birth_year: Visibility_;
-	job: Visibility_;
+	gender: Visibility;
+	region: Visibility;
+	birth_day: Visibility;
+	birth_year: Visibility;
+	job: Visibility;
 	pawoo: boolean;
 }
 

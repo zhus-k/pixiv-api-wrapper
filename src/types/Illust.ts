@@ -1,6 +1,6 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
-import { Type as Type_ } from './SearchParameterOptions';
-import { User as User_ } from './User';
+import { Type } from './SearchParameterOptions';
+import { User } from './User';
 
 export type IllustDetail = CamelCasedPropertiesDeep<Illust_Detail>;
 export type Illust = CamelCasedPropertiesDeep<Illust_>;
@@ -39,11 +39,11 @@ interface Illust_Detail {
 interface Illust_ {
 	id: number;
 	title: string;
-	type: Type_;
+	type: Type;
 	image_urls: Image_Urls;
 	caption: string;
 	restrict: number;
-	user: Omit<User_, 'is_access_blocking_user'>;
+	user: Omit<User, 'is_access_blocking_user'>;
 	tags: Tag_[];
 	tools: string[];
 	create_date: string;
