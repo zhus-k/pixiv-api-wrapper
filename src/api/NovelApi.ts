@@ -1,14 +1,14 @@
 import { HttpBase } from './HttpBase';
-import { BookmarkDetail } from './types/Bookmark';
-import { Comments } from './types/Comments';
-import { CommentsV2 } from './types/CommentsV2';
+import { BookmarkDetail } from '../types/Bookmark';
+import { Comments } from '../types/Comments';
+import { CommentsV2 } from '../types/CommentsV2';
 import {
 	NovelDetail,
 	NovelText,
 	Novels,
 	RecommendedNovels,
-} from './types/Novel';
-import { SearchParameterOptions } from './types/SearchParameterOptions';
+} from '../types/Novel';
+import { SearchParameterOptions } from '../types/SearchParameterOptions';
 
 type NovelSearchParams = Pick<
 	SearchParameterOptions,

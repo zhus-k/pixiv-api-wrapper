@@ -1,5 +1,5 @@
 import { HttpBase } from './HttpBase';
-import { TrendingTags } from './types/TrendingTags';
+import { TrendingTags } from '../types/TrendingTags';
 
 export class TrendingTagsApi extends HttpBase {
 	async illust(): Promise<TrendingTags> {

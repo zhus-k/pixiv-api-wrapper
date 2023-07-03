@@ -1,11 +1,11 @@
 import { snakeToCamelCase } from '../helpers';
 import { HttpBase } from './HttpBase';
-import { Autocomplete, AutocompleteV2 } from './types/Autocomplete';
-import { BookmarkRanges } from './types/Bookmark';
-import { IllustSearch, IllustsPopularPreviewSearch } from './types/Illust';
-import { NovelPopularPreviewSearch, NovelSearch } from './types/Novel';
-import { SearchParameterOptions } from './types/SearchParameterOptions';
-import { Users } from './types/User';
+import { Autocomplete, AutocompleteV2 } from '../types/Autocomplete';
+import { BookmarkRanges } from '../types/Bookmark';
+import { IllustSearch, IllustsPopularPreviewSearch } from '../types/Illust';
+import { NovelPopularPreviewSearch, NovelSearch } from '../types/Novel';
+import { SearchParameterOptions } from '../types/SearchParameterOptions';
+import { Users } from '../types/User';
 
 type SearchParams = Pick<
 	SearchParameterOptions,

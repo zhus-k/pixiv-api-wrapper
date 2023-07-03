@@ -1,6 +1,6 @@
 import { HttpBase } from './HttpBase';
-import { SearchParameterOptions } from './types/SearchParameterOptions';
-import { Ugoira } from './types/Ugoira';
+import { SearchParameterOptions } from '../types/SearchParameterOptions';
+import { Ugoira } from '../types/Ugoira';
 
 type Params = Pick<SearchParameterOptions, 'illustId'>;
 

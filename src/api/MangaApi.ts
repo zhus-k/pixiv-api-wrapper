@@ -1,6 +1,6 @@
 import { HttpBase } from './HttpBase';
-import { RecommendedManga } from './types/Illust';
-import { SearchParameterOptions } from './types/SearchParameterOptions';
+import { RecommendedManga } from '../types/Illust';
+import { SearchParameterOptions } from '../types/SearchParameterOptions';
 
 type MangaSearchParams = Pick<SearchParameterOptions, 'offset'>;
 

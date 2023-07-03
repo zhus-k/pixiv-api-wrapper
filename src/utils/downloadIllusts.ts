@@ -1,6 +1,6 @@
 import { ClientRequest } from 'node:http';
 import https from 'node:https';
-import { Illust } from '../api/types/Illust';
+import { Illust } from '../types/Illust';
 import { httpRequest } from '../helpers';
 import { FileDownload } from './fileDownload';
 

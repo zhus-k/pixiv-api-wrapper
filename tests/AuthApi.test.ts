@@ -8,9 +8,10 @@ describe('Auth Api Client', () => {
 	});
 
 	it('should authenticate returning a new JWT', async () => {
-		const { accessToken, refreshToken } = client.Auth.getAuthentication();
+		const { Auth } = client;
+		const { accessToken, refreshToken } = Auth.getAuthentication();
 
-		const authResponse = client.Auth.authenticate(env.PIXIV_RT ?? '');
+		const authResponse = Auth.authenticate(env.PIXIV_RT ?? '');
 		expect(authResponse).resolves.toHaveProperty('response');
 
 		const newAuth = await authResponse;
@@ -23,16 +24,38 @@ describe('Auth Api Client', () => {
 	});
 
 	it('should authenticate returning a new JWT', async () => {
-		const { accessToken, refreshToken } = client.Auth.getAuthentication();
+		const { Auth } = client;
+		const { accessToken, refreshToken } = Auth.getAuthentication();
 
-		await client.Auth.refreshAuth();
+		await Auth.refreshAuth();
 
-		const newAuth = client.Auth.getAuthentication();
+		const newAuth = Auth.getAuthentication();
 		expect(newAuth.accessToken).toBeDefined();
 		expect(newAuth.refreshToken).toBeDefined();
 
 		// Refresh token should not change, however access token should?
 		expect(newAuth.accessToken).not.toEqual(accessToken);
 		expect(newAuth.refreshToken).toEqual(refreshToken);
+	});
+
+	it('should use new access token', async () => {
+		const { Auth, Illust } = client;
+		const { accessToken, refreshToken } = Auth.getAuthentication();
+
+		const detail1 = Illust.detail('54264006');
+		expect(detail1).resolves.toHaveProperty('illust');
+
+		await Auth.refreshAuth();
+
+		const newAuth = Auth.getAuthentication();
+		expect(newAuth.accessToken).toBeDefined();
+		expect(newAuth.refreshToken).toBeDefined();
+
+		// Refresh token should not change, however access token should?
+		expect(newAuth.accessToken).not.toEqual(accessToken);
+		expect(newAuth.refreshToken).toEqual(refreshToken);
+
+		const detail2 = Illust.detail('54264006');
+		expect(detail2).resolves.toHaveProperty('illust');
 	});
 });

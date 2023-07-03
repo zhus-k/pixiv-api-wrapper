@@ -1,9 +1,9 @@
 import { HttpBase } from './HttpBase';
-import { BookmarkDetail } from './types/Bookmark';
-import { Comments } from './types/Comments';
-import { CommentsV2 } from './types/CommentsV2';
-import { IllustDetail, Illusts, RecommendedIllusts } from './types/Illust';
-import { SearchParameterOptions } from './types/SearchParameterOptions';
+import { BookmarkDetail } from '../types/Bookmark';
+import { Comments } from '../types/Comments';
+import { CommentsV2 } from '../types/CommentsV2';
+import { IllustDetail, Illusts, RecommendedIllusts } from '../types/Illust';
+import { SearchParameterOptions } from '../types/SearchParameterOptions';
 
 type IllustSearchParams = Pick<
 	SearchParameterOptions,

@@ -1,6 +1,6 @@
 import { Browser } from 'puppeteer-core';
 import { AuthApi } from '../api/AuthApi';
-import { Auth } from '../api/types/Auth';
+import { Auth } from '../types/Auth';
 
 type RefreshToken = string;
 
@@ -48,6 +48,9 @@ export class AuthClient {
 	async refreshAuth() {
 		if (this.auth.refreshToken) {
 			const auth = await this.api.refreshToken(this.auth.refreshToken);
+			if (!auth) {
+				throw new Error('Authentication Error');
+			}
 			this.set(auth);
 			return this.auth.refreshToken;
 		}

@@ -4,7 +4,7 @@ import { read } from 'jimp';
 import { ClientRequest } from 'node:http';
 import https from 'node:https';
 import { Writable } from 'node:stream';
-import { Ugoira } from '../api/types/Ugoira';
+import { Ugoira } from '../types/Ugoira';
 import { httpRequest } from '../helpers';
 import { FileDownload } from './fileDownload';
 

@@ -1,12 +1,12 @@
 import { HttpBase } from './HttpBase';
-import { BookmarkTags } from './types/Bookmark';
-import { Illusts } from './types/Illust';
-import { UserNovel } from './types/Novel';
+import { BookmarkTags } from '../types/Bookmark';
+import { Illusts } from '../types/Illust';
+import { UserNovel } from '../types/Novel';
 import {
 	AllVisibility,
 	SearchParameterOptions,
-} from './types/SearchParameterOptions';
-import { Follow, RecommendedUser, UserDetail, Users } from './types/User';
+} from '../types/SearchParameterOptions';
+import { Follow, RecommendedUser, UserDetail, Users } from '../types/User';
 
 type UserSearchParams = Pick<
 	SearchParameterOptions,

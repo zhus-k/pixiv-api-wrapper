@@ -18,7 +18,7 @@ import {
 	snakeToCamelCase,
 	timeOutPromise,
 } from '../helpers';
-import { Auth } from './types/Auth';
+import { Auth } from '../types/Auth';
 
 export class AuthApi {
 	constructor(private browser?: Browser) {}

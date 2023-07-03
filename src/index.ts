@@ -1,3 +1,3 @@
 export { PixivApi } from './PixivApi';
-export * from './api/types';
+export * as Types from './types';
 export * as Utils from './utils';

@@ -4,15 +4,16 @@ import { buildBaseApi } from '../helpers';
 
 // why did i do this
 export abstract class HttpBase {
-	protected request;
-	constructor(protected authClient: AuthClient) {
+	constructor(protected authClient: AuthClient) {}
+
+	protected get request() {
 		const { hostname } = new URL(apiOrigin);
-		this.request = buildBaseApi({
+		return buildBaseApi({
 			hostname,
 			headers: {
-				Authorization: this.authClient.getAuthentication().accessToken
-					? `Bearer ${this.authClient.getAuthentication().accessToken}`
-					: undefined,
+				Authorization: `Bearer ${
+					this.authClient.getAuthentication().accessToken
+				}`,
 			},
 		});
 	}
