@@ -1,19 +1,17 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
 
-export type Autocomplete = CamelCasedPropertiesDeep<Response.Autocomplete>;
-export type AutocompleteV2 = CamelCasedPropertiesDeep<Response.AutocompleteV2>;
+export type Autocomplete = CamelCasedPropertiesDeep<Autocomplete_>;
+export type AutocompleteV2 = CamelCasedPropertiesDeep<AutocompleteV2_>;
 
-export namespace Response {
-	export interface Autocomplete {
-		search_auto_complete_keywords: string[];
-	}
+interface Autocomplete_ {
+	search_auto_complete_keywords: string[];
+}
 
-	export interface AutocompleteV2 {
-		tags: Tag[];
-	}
+interface AutocompleteV2_ {
+	tags: Tag_[];
+}
 
-	export interface Tag {
-		name: string;
-		translated_name?: string;
-	}
+interface Tag_ {
+	name: string;
+	translated_name?: string;
 }

@@ -1,99 +1,95 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
-import { Type } from './SearchParameterOptions';
-import { User } from './User';
+import { Type as Type_ } from './SearchParameterOptions';
+import { User as User_ } from './User';
 
-export type IllustDetail = CamelCasedPropertiesDeep<Response.IllustDetail>;
-export type Illust = CamelCasedPropertiesDeep<Response.Illust>;
-export type Illusts = CamelCasedPropertiesDeep<Response.Illusts>;
-export type IllustSearch = CamelCasedPropertiesDeep<Response.IllustSearch>;
+export type IllustDetail = CamelCasedPropertiesDeep<Illust_Detail>;
+export type Illust = CamelCasedPropertiesDeep<Illust_>;
+export type Illusts = CamelCasedPropertiesDeep<Illusts_>;
+export type IllustSearch = CamelCasedPropertiesDeep<Illust_Search>;
 export type IllustsPopularPreviewSearch =
-	CamelCasedPropertiesDeep<Response.IllustsPopularPreviewSearch>;
-export type RecommendedIllusts =
-	CamelCasedPropertiesDeep<Response.RecommendedIllusts>;
-export type RecommendedManga =
-	CamelCasedPropertiesDeep<Response.RecommendedManga>;
+	CamelCasedPropertiesDeep<Illusts_Popular_Preview_Search>;
+export type RecommendedIllusts = CamelCasedPropertiesDeep<Recommended_Illusts>;
+export type RecommendedManga = CamelCasedPropertiesDeep<Recommended_Manga>;
 
-export namespace Response {
-	export interface IllustSearch extends Illusts {
-		search_span_limit: number;
-	}
+interface Illust_Search extends Illusts_ {
+	search_span_limit: number;
+}
 
-	export interface IllustsPopularPreviewSearch
-		extends Omit<IllustSearch, 'next_url'> {}
+interface Illusts_Popular_Preview_Search
+	extends Omit<Illust_Search, 'next_url'> {}
 
-	export interface RecommendedManga
-		extends Omit<RecommendedIllusts, 'contest_exists'> {}
+interface Recommended_Manga
+	extends Omit<Recommended_Illusts, 'contest_exists'> {}
 
-	export interface RecommendedIllusts extends Illusts {
-		ranking_illusts: [];
-		contest_exists: boolean;
-		privacy_policy: {};
-	}
+interface Recommended_Illusts extends Illusts_ {
+	ranking_illusts: [];
+	contest_exists: boolean;
+	privacy_policy: {};
+}
 
-	export interface Illusts {
-		illusts: Illust[];
-		next_url: string | null;
-	}
+interface Illusts_ {
+	illusts: Illust_[];
+	next_url: string | null;
+}
 
-	export interface IllustDetail {
-		illust: Illust;
-	}
+interface Illust_Detail {
+	illust: Illust_;
+}
 
-	export interface Illust {
-		id: number;
-		title: string;
-		type: Type;
-		image_urls: ImageUrls;
-		caption: string;
-		restrict: number;
-		user: Omit<User, 'is_access_blocking_user'>;
-		tags: Tag[];
-		tools: string[];
-		create_date: string;
-		page_count: number;
-		width: number;
-		height: number;
-		sanity_level: number;
-		x_restrict: number;
-		series?: Series;
-		meta_single_page: MetaSinglePage;
-		meta_pages: MetaPage[];
-		total_view: number;
-		total_bookmarks: number;
-		is_bookmarked: boolean;
-		visible: boolean;
-		is_muted: boolean;
-		total_comments: number;
-		illust_ai_type: number;
-		illust_book_style: number;
-		comment_access_control: number;
-	}
+interface Illust_ {
+	id: number;
+	title: string;
+	type: Type_;
+	image_urls: Image_Urls;
+	caption: string;
+	restrict: number;
+	user: Omit<User_, 'is_access_blocking_user'>;
+	tags: Tag_[];
+	tools: string[];
+	create_date: string;
+	page_count: number;
+	width: number;
+	height: number;
+	sanity_level: number;
+	x_restrict: number;
+	series?: Series_;
+	meta_single_page: Meta_Single_Page;
+	meta_pages: Meta_Page[];
+	total_view: number;
+	total_bookmarks: number;
+	is_bookmarked: boolean;
+	visible: boolean;
+	is_muted: boolean;
+	total_comments: number;
+	illust_ai_type: number;
+	illust_book_style: number;
+	comment_access_control: number;
+}
 
-	export interface ImageUrls {
-		square_medium: string;
-		medium: string;
-		large: string;
-	}
+interface Image_Urls {
+	square_medium: string;
+	medium: string;
+	large: string;
+}
 
-	export interface Series {
-		id: number;
-		title: string;
-	}
+interface Series_ {
+	id: number;
+	title: string;
+}
 
-	export interface MetaPageImageUrls extends ImageUrls {
-		original: string;
-	}
+interface Meta_Page_Image_Urls extends Image_Urls {
+	original: string;
+}
 
-	export interface MetaPage {
-		image_urls: MetaPageImageUrls;
-	}
+interface Meta_Page {
+	image_urls: Meta_Page_Image_Urls;
+}
 
-	export interface MetaSinglePage {
-		original_image_url?: string;
-	}
+interface Meta_Single_Page {
+	original_image_url?: string;
+}
 
-	export interface Tag {
-		name: string;
-		translated_name?: string;
-	}
+interface Tag_ {
+	name: string;
+	translated_name?: string;
 }

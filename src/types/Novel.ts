@@ -1,91 +1,87 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
-import { User } from './User';
+import { User as User_ } from './User';
 
-export type NovelDetail = CamelCasedPropertiesDeep<Response.NovelDetail>;
-export type Novel = CamelCasedPropertiesDeep<Response.Novel>;
-export type Novels = CamelCasedPropertiesDeep<Response.Novels>;
-export type NovelText = CamelCasedPropertiesDeep<Response.NovelText>;
-export type NovelSearch = CamelCasedPropertiesDeep<Response.NovelSearch>;
-export type UserNovel = CamelCasedPropertiesDeep<Response.UserNovel>;
-export type RecommendedNovels =
-	CamelCasedPropertiesDeep<Response.RecommendedNovels>;
+export type NovelDetail = CamelCasedPropertiesDeep<Novel_Detail>;
+export type Novel = CamelCasedPropertiesDeep<Novel_>;
+export type Novels = CamelCasedPropertiesDeep<Novels_>;
+export type NovelText = CamelCasedPropertiesDeep<Novel_Text>;
+export type NovelSearch = CamelCasedPropertiesDeep<Novel_Search>;
+export type UserNovel = CamelCasedPropertiesDeep<User_Novel>;
+export type RecommendedNovels = CamelCasedPropertiesDeep<Recommended_Novels>;
 export type NovelPopularPreviewSearch =
-	CamelCasedPropertiesDeep<Response.NovelPopularPreviewSearch>;
+	CamelCasedPropertiesDeep<Novel_Popular_Preview_Search>;
 
-export namespace Response {
-	export interface NovelSearch extends Novels {
-		searchSpanLimit: number;
-	}
-
-	export interface RecommendedNovels extends Novels {
-		ranking_novels: [];
-		privacy_policy: {};
-	}
-
-	export interface NovelPopularPreviewSearch
-		extends Omit<NovelSearch, 'next_url'> {}
-
-	export interface UserNovel extends Novels {
-		user: User;
-	}
-
-	export interface Novels {
-		novels: Novel[];
-		next_url: string | null;
-	}
-
-	export interface NovelDetail {
-		novel: Novel;
-	}
-
-	export interface Novel {
-		id: number;
-		title: string;
-		caption: string;
-		restrict: number;
-		x_restrict: number;
-		is_original: boolean;
-		image_urls: ImageUrls;
-		create_date: string;
-		tags: Tag[];
-		page_count: number;
-		text_length: number;
-		user: Omit<User, 'is_access_blocking_user'>;
-		series?: Series;
-		is_bookmarked: boolean;
-		total_bookmarks: number;
-		total_view: number;
-		visible: boolean;
-		total_comments: number;
-		is_muted: boolean;
-		is_mypixiv_only: boolean;
-		is_x_restricted: boolean;
-		novel_ai_type: number;
-	}
-
-	export interface ImageUrls {
-		square_medium: string;
-		medium: string;
-		large: string;
-	}
-
-	export interface Series {
-		id: number;
-		title: string;
-	}
-
-	export interface Tag {
-		name: string;
-		translated_name?: string;
-		added_by_uploaded_user: boolean;
-	}
-
-	export interface NovelText {
-		novel_marker: NovelMarker;
-		novel_text: string;
-		series_prev: Novel;
-		series_next: Novel;
-	}
-
-	export interface NovelMarker {}
+interface Novel_Search extends Novels_ {
+	searchSpanLimit: number;
 }
+
+interface Recommended_Novels extends Novels_ {
+	ranking_novels: [];
+	privacy_policy: {};
+}
+
+interface Novel_Popular_Preview_Search extends Omit<Novel_Search, 'next_url'> {}
+
+interface User_Novel extends Novels_ {
+	user: User_;
+}
+
+interface Novels_ {
+	novels: Novel_[];
+	next_url: string | null;
+}
+
+interface Novel_Detail {
+	novel: Novel_;
+}
+
+interface Novel_ {
+	id: number;
+	title: string;
+	caption: string;
+	restrict: number;
+	x_restrict: number;
+	is_original: boolean;
+	image_urls: Image_Urls;
+	create_date: string;
+	tags: Tag_[];
+	page_count: number;
+	text_length: number;
+	user: Omit<User_, 'is_access_blocking_user'>;
+	series?: Series_;
+	is_bookmarked: boolean;
+	total_bookmarks: number;
+	total_view: number;
+	visible: boolean;
+	total_comments: number;
+	is_muted: boolean;
+	is_mypixiv_only: boolean;
+	is_x_restricted: boolean;
+	novel_ai_type: number;
+}
+
+interface Image_Urls {
+	square_medium: string;
+	medium: string;
+	large: string;
+}
+
+interface Series_ {
+	id: number;
+	title: string;
+}
+
+interface Tag_ {
+	name: string;
+	translated_name?: string;
+	added_by_uploaded_user: boolean;
+}
+
+interface Novel_Text {
+	novel_marker: Novel_Marker;
+	novel_text: string;
+	series_prev: Novel_;
+	series_next: Novel_;
+}
+
+interface Novel_Marker {}

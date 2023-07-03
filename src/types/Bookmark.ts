@@ -1,38 +1,36 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
 import { Visibility } from './SearchParameterOptions';
 
-export type BookmarkDetail = CamelCasedPropertiesDeep<Response.BookmarkDetail>;
-export type BookmarkTag = CamelCasedPropertiesDeep<Response.BookmarkTag>;
-export type BookmarkTags = CamelCasedPropertiesDeep<Response.BookmarkTags>;
-export type BookmarkRanges = CamelCasedPropertiesDeep<Response.BookmarkRanges>;
+export type BookmarkDetail = CamelCasedPropertiesDeep<Bookmark_Detail>;
+export type BookmarkTag = CamelCasedPropertiesDeep<Bookmark_Tag>;
+export type BookmarkTags = CamelCasedPropertiesDeep<Bookmark_Tags>;
+export type BookmarkRanges = CamelCasedPropertiesDeep<Bookmark_Ranges>;
 
-export namespace Response {
-	export interface BookmarkDetail {
-		bookmark_detail: {
-			is_bookmarked: boolean;
-			tags: Tag[];
-			restrict: Visibility;
-		};
-	}
+interface Bookmark_Detail {
+	bookmark_detail: {
+		is_bookmarked: boolean;
+		tags: Tag_[];
+		restrict: Visibility;
+	};
+}
 
-	export interface Tag {
-		name: string;
-		is_registered: boolean;
-	}
+interface Tag_ {
+	name: string;
+	is_registered: boolean;
+}
 
-	export interface BookmarkTags {
-		bookmark_tags: BookmarkTag[];
-	}
+interface Bookmark_Tags {
+	bookmark_tags: Bookmark_Tag[];
+}
 
-	export interface BookmarkTag {
-		name: string;
-		count: number;
-	}
+interface Bookmark_Tag {
+	name: string;
+	count: number;
+}
 
-	export interface BookmarkRanges {
-		bookmark_ranges: {
-			bookmark_num_min: string;
-			bookmark_num_max: string;
-		}[];
-	}
+interface Bookmark_Ranges {
+	bookmark_ranges: {
+		bookmark_num_min: string;
+		bookmark_num_max: string;
+	}[];
 }

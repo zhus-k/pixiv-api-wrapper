@@ -1,33 +1,31 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
 
-export type Comments = CamelCasedPropertiesDeep<Response.Comments>;
+export type Comments = CamelCasedPropertiesDeep<Comments_>;
 
-export namespace Response {
-	export interface Comments {
-		total_comments: number;
-		comments: Comment[];
-		next_url: string | null;
-		comment_access_control: number;
-	}
+interface Comments_ {
+	total_comments: number;
+	comments: Comment_[];
+	next_url: string | null;
+	comment_access_control: number;
+}
 
-	export interface Comment {
-		id: number;
-		comment: string;
-		date: string;
-		user: User;
-		parent_comment: ParentComment;
-	}
+interface Comment_ {
+	id: number;
+	comment: string;
+	date: string;
+	user: User_;
+	parent_comment: Parent_Comment;
+}
 
-	export interface ParentComment {}
+interface Parent_Comment {}
 
-	export interface User {
-		id: number;
-		name: string;
-		account: string;
-		profile_image_urls: ProfileImageUrls;
-	}
+interface User_ {
+	id: number;
+	name: string;
+	account: string;
+	profile_image_urls: Profile_Image_Urls;
+}
 
-	export interface ProfileImageUrls {
-		medium: string;
-	}
+interface Profile_Image_Urls {
+	medium: string;
 }

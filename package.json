@@ -1,6 +1,6 @@
 {
 	"name": "pixiv-api-wrapper",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "A type safe wrapper for Pixiv App API",
 	"main": "./dist/mjs/index.js",
 	"types": "./dist/types/index.d.ts",

@@ -1,19 +1,17 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
-import { Illust } from './Illust';
+import { Illust as Illust_ } from './Illust';
 
-export type TrendingTags = CamelCasedPropertiesDeep<Response.TrendingTags>;
+export type TrendingTags = CamelCasedPropertiesDeep<Trending_Tags>;
 
-export namespace Response {
-	export interface TrendingTags {
-		trend_tags: TrendTag[];
-	}
-
-	export interface TrendTag {
-		tag: string;
-		translated_name?: string;
-		illust: TrendTagIllust;
-	}
-
-	export interface TrendTagIllust
-		extends Omit<Illust, 'total_comments' | 'comment_access_control'> {}
+interface Trending_Tags {
+	trend_tags: Trend_Tag[];
 }
+
+interface Trend_Tag {
+	tag: string;
+	translated_name?: string;
+	illust: Trend_Tag_Illust;
+}
+
+interface Trend_Tag_Illust
+	extends Omit<Illust_, 'total_comments' | 'comment_access_control'> {}
